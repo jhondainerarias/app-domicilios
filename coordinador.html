@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinador - DOMIFACIL24/7</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.awesome-markers@2.0.2/dist/leaflet.awesome-markers.css">
+    
+    <link rel="stylesheet" href="style.css"> <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos para el contenedor del login y el contenido oculto */
+        #login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Calcula la altura para centrar el formulario. Restamos el alto aproximado del header y footer */
+            min-height: calc(100vh - 160px); 
+            text-align: center;
+            padding: 20px;
+        }
+
+        #login-form-coordinador {
+            width: 100%;
+            max-width: 400px;
+            background-color: var(--background-light); /* Usamos la variable CSS */
+            padding: 30px;
+            border-radius: var(--border-radius); /* Usamos la variable CSS */
+            box-shadow: var(--shadow); /* Usamos la variable CSS */
+            animation: fadeIn 0.5s ease-out; /* Animación de fade-in */
+            display: flex; /* Se muestra por defecto */
+            flex-direction: column;
+        }
+
+        #login-form-coordinador h2 {
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: none; /* Quitamos el borde inferior del h2 global */
+            padding-bottom: 0;
+            color: var(--text-color); /* Usamos la variable CSS */
+        }
+
+        #login-form-coordinador label {
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--secondary-color); /* Usamos la variable CSS */
+        }
+
+        /* Reutilizamos los estilos de input/password globales de style.css, pero definimos margin-bottom aquí */
+        #login-form-coordinador input[type="text"],
+        #login-form-coordinador input[type="password"] {
+            margin-bottom: 20px;
+        }
+
+        /* Reutilizamos los estilos de botón globales de style.css, pero definimos width y margin-top aquí */
+        #login-form-coordinador button[type="submit"] {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        /* Oculta el contenido principal de la página hasta que el login sea exitoso */
+        #main-content {
+            display: none;
+            width: 100%;
+        }
+
+        #main-content.visible {
+            display: block; /* Muestra el contenido cuando el login es exitoso */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DOMIFACIL24/7</h1>
+        <img src="imagen/domif.png" alt="Logo de la Empresa DOMIFACIL24/7" class="logo">
+        <h1>+57 313 809 4678</h1>
+        <h1>COORDINADORES</h1>
+    </header>
+
+    <main>
+        <section id="login-container">
+            <form id="login-form-coordinador">
+                <h2>Iniciar Sesión como Coordinador</h2>
+                <label for="coordinador-id">Número de Coordinador / Cédula:</label>
+                <input type="text" id="coordinador-id" required>
+
+                <label for="coordinador-name">Nombre del Coordinador:</label>
+                <input type="text" id="coordinador-name" required>
+
+                <label for="coordinador-password">Contraseña:</label>
+                <input type="password" id="coordinador-password" required>
+
+                <button type="submit">Acceder</button>
+            </form>
+        </section>
+
+        <div id="main-content">
+            <section id="registro-repartidor">
+                <h2><i class="fas fa-motorcycle icon"></i> Registrar Móvil</h2>
+                <form id="form-repartidor">
+                    <label for="numero-movil">Número de Móvil:</label>
+                    <input type="text" id="numero-movil" required>
+
+                    <label for="nombre-repartidor">Nombre del Móvil:</label>
+                    <input type="text" id="nombre-repartidor" required>
+
+                    <label for="telefono-repartidor">Teléfono del Móvil:</label>
+                    <input type="tel" id="telefono-repartidor" required>
+
+                    <label for="password-repartidor">Contraseña Inicial:</label>
+                    <input type="password" id="password-repartidor" required>
+
+                    <button type="submit">Registrar Móvil</button>
+                </form>
+            </section>
+
+            <section id="lista-repartidores">
+                <h2><i class="fas fa-motorcycle icon"></i> Móviles Registrados</h2>
+                <ul id="repartidores-list">
+                </ul>
+            </section>
+
+            <section id="mapa-ubicacion">
+                <h2><i class="fas fa-map-marked-alt icon"></i> Ubicación de Móviles</h2>
+                <div id="mapid"></div>
+                <p class="nota">
+                </p>
+            </section>
+
+            <section id="asignacion-pedidos">
+                <h2><i class="fas fa-box-open icon"></i> Asignar Pedidos</h2>
+                <form id="form-pedido">
+                    <label for="repartidor-select">Seleccionar Móvil:</label>
+                    <select id="repartidor-select" required>
+                        <option value="">-- Seleccione un móvil --</option>
+                    </select>
+
+                    <label for="direccion-recogida">Dirección de Recogida:</label>
+                    <input type="text" id="direccion-recogida" required>
+                    
+                    <label for="descripcion-pedido">Descripción y datos del Pedido:</label>
+                    <textarea id="descripcion-pedido" rows="3" required></textarea>
+
+                    <label for="direccion-entrega">Dirección de Entrega:</label>
+                    <input type="text" id="direccion-entrega" required>
+
+                    <button type="submit">Asignar Pedido</button>
+                </form>
+                <h3>Pedidos Asignados</h3>
+                <ul id="pedidos-list">
+                </ul>
+                <p class="nota">
+                </p>
+            </section>
+        </div> </main>
+
+    <footer>
+        <p>&copy; 2025 DOMIFACIL 24/7</p>
+        <p>&copy; jhon dainer arias</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.awesome-markers@2.0.2/dist/leaflet.awesome-markers.min.js"></script>
+    
+    <script src="script.js"></script> <script>
+        // Lógica para mostrar/ocultar el formulario de login y el contenido principal
+        const loginFormCoordinador = document.getElementById('login-form-coordinador');
+        const loginContainer = document.getElementById('login-container');
+        const mainContent = document.getElementById('main-content');
+
+        // Función para simular el inicio de sesión
+        // *** ESTA ES LA PARTE CLAVE DONDE DEBES INTEGRAR TU BACKEND ***
+        // Por ahora, es una validación muy básica SOLO PARA PRUEBAS:
+        async function authenticateCoordinator(id, name, password) {
+            // En un entorno de producción, aquí harías una llamada a tu API de backend
+            // para validar las credenciales. Por ejemplo:
+            /*
+            try {
+                const response = await fetch('/api/login/coordinador', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id, name, password })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    // Guarda el token de autenticación si lo hay
+                    localStorage.setItem('authToken', data.token); 
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error al intentar iniciar sesión:', error);
+                return false;
+            }
+            */
+
+            // SIMULACIÓN (eliminar cuando tengas backend real)
+            if (id === '123' && name === 'admin' && password === 'pass123') {
+                return true; // Autenticación exitosa (SIMULADA)
+            }
+            return false; // Autenticación fallida (SIMULADA)
+        }
+
+        loginFormCoordinador.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe y recargue la página
+
+            const coordinadorId = document.getElementById('coordinador-id').value;
+            const coordinadorName = document.getElementById('coordinador-name').value;
+            const coordinadorPassword = document.getElementById('coordinador-password').value;
+
+            // Intenta autenticar al coordinador
+            const isAuthenticated = await authenticateCoordinator(coordinadorId, coordinadorName, coordinadorPassword);
+
+            if (isAuthenticated) {
+                alert('¡Inicio de sesión como Coordinador exitoso!');
+                // Oculta el formulario de login
+                loginContainer.style.display = 'none';
+                // Muestra el contenido principal de la página
+                mainContent.classList.add('visible');
+
+                // Si tu script.js tiene funciones de inicialización (ej. para el mapa o websockets),
+                // llámalas aquí para que se ejecuten solo después del login.
+                // Por ejemplo, si tienes una función 'initApp()' en script.js:
+                // if (typeof initApp === 'function') {
+                //     initApp(); 
+                // }
+                // O si tienes inicialización de Leaflet, Socket.io, etc.
+                // Es importante que la inicialización del mapa y sockets NO se haga hasta aquí.
+            } else {
+                alert('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+                loginFormCoordinador.reset(); // Limpia los campos del formulario
+            }
+        });
+
+        // Asegura que al cargar la página, el contenido principal esté oculto
+        // y el formulario de login visible. En una aplicación real, aquí también
+        // verificarías si ya hay una sesión activa (ej. con un token en localStorage o una cookie)
+        // para decidir si mostrar el login o el contenido directamente.
+        window.addEventListener('load', () => {
+            // Por defecto, siempre mostramos el login al cargar.
+            // En un entorno de producción, aquí iría la lógica para comprobar si ya hay una sesión.
+            loginContainer.style.display = 'flex'; // Muestra el formulario de login
+            mainContent.classList.remove('visible'); // Asegura que el contenido principal esté oculto
+
+            // Si tienes código en script.js que necesita el DOM listo pero NO la autenticación (ej. escuchadores de eventos simples),
+            // puedes llamarlo aquí. PERO si depende de datos autenticados o del mapa, NO lo llames aquí.
+        });
+    </script>
+</body>
+</html>

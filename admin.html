@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrador Principal - DOMIFACIL24/7</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos específicos para el login y las secciones de administración */
+        #admin-login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Calcula la altura para centrar el formulario. Restamos el alto aproximado del header y footer */
+            min-height: calc(100vh - 160px); 
+            padding: 20px;
+        }
+
+        #admin-login-form,
+        #register-coordinator-form {
+            width: 100%;
+            max-width: 450px; /* Un poco más ancho si lo necesitas */
+            background-color: var(--background-light);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s ease-out;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px; /* Espacio si hay más de un formulario */
+        }
+
+        #admin-login-form h2,
+        #register-coordinator-form h2 {
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            border-bottom: none;
+            padding-bottom: 0;
+            color: var(--text-color);
+        }
+
+        #admin-login-form label,
+        #register-coordinator-form label {
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        #admin-login-form input,
+        #register-coordinator-form input {
+            margin-bottom: 20px;
+            width: 100%; /* Asegura que ocupen todo el ancho disponible */
+            padding: 12px; /* Añade un padding cómodo */
+            border: 1px solid var(--border-color); /* Borde suave */
+            border-radius: 5px; /* Bordes redondeados */
+            font-size: 1em; /* Tamaño de fuente legible */
+            box-sizing: border-box; /* Incluye padding y border en el ancho total */
+        }
+
+        #admin-login-form button,
+        #register-coordinator-form button {
+            width: 100%;
+            margin-top: 15px;
+            /* Estos estilos ya están en style.css, pero se repiten aquí por claridad si no los tienes en style.css */
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #admin-login-form button:hover,
+        #register-coordinator-form button:hover {
+            background-color: #43A047; /* Un tono de verde más oscuro */
+            transform: translateY(-2px);
+        }
+
+        /* Contenido principal del administrador, inicialmente oculto */
+        #admin-main-content {
+            display: none; /* Oculto por defecto */
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto; /* Centrar y añadir margen */
+        }
+
+        #admin-main-content.visible {
+            display: block; /* Visible después del login */
+        }
+
+        #admin-main-content section {
+            background-color: var(--background-light); /* Fondo claro para las secciones */
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .coordinators-list ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .coordinators-list li {
+            background-color: var(--background-color); /* Un fondo ligeramente diferente para ítems */
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95em;
+        }
+
+        .coordinators-list li button {
+            background-color: #dc3545; /* Rojo para eliminar */
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .coordinators-list li button:hover {
+            background-color: #c82333;
+        }
+
+        /* Adaptaciones responsivas */
+        @media (max-width: 767px) {
+            #admin-login-form,
+            #register-coordinator-form {
+                padding: 20px;
+            }
+            #admin-main-content {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>DOMIFACIL24/7</h1>
+        <img src="imagen/domif.png" alt="Logo de la Empresa DOMIFACIL24/7" class="logo">
+        <h1>+57 313 809 4678</h1>
+        <h1>ADMINISTRADOR PRINCIPAL</h1>
+    </header>
+
+    <main>
+        <section id="admin-login-container">
+            <form id="admin-login-form">
+                <h2>Iniciar Sesión como Administrador</h2>
+                <label for="admin-user">Usuario Administrador:</label>
+                <input type="text" id="admin-user" required>
+
+                <label for="admin-password">Contraseña:</label>
+                <input type="password" id="admin-password" required>
+
+                <button type="submit">Acceder como Administrador</button>
+            </form>
+        </section>
+
+        <div id="admin-main-content">
+            <section id="register-coordinator-section">
+                <h2><i class="fas fa-user-plus icon"></i> Registrar Nuevo Coordinador</h2>
+                <form id="register-coordinator-form">
+                    <label for="new-coordinator-id">Número de Coordinador</label>
+                    <input type="text" id="new-coordinator-id" required>
+
+                    <label for="new-coordinator-name">Nombre del Coordinador:</label>
+                    <input type="text" id="new-coordinator-name" required>
+
+                    <label for="new-coordinator-password">Contraseña Inicial:</label>
+                    <input type="password" id="new-coordinator-password" required>
+
+                    <button type="submit">Registrar Coordinador</button>
+                </form>
+            </section>
+
+            <section id="list-coordinators-section" class="coordinators-list">
+                <h2><i class="fas fa-users-cog icon"></i> Coordinadores Registrados</h2>
+                <ul id="coordinators-list">
+                    </ul>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DOMIFACIL 24/7</p>
+        <p>&copy; jhon dainer arias</p>
+    </footer>
+
+    <script>
+        // Referencias a elementos del DOM
+        const adminLoginForm = document.getElementById('admin-login-form');
+        const adminLoginContainer = document.getElementById('admin-login-container');
+        const adminMainContent = document.getElementById('admin-main-content');
+        const registerCoordinatorForm = document.getElementById('register-coordinator-form');
+        const coordinatorsList = document.getElementById('coordinators-list');
+
+        // --- SIMULACIÓN DE BASE DE DATOS EN MEMORIA (PARA EL FRONTEND) ---
+        // ¡ADVERTENCIA! Esto NO es una base de datos real ni segura.
+        // Los datos se guardan en el localStorage del navegador y NO DEBEN USARSE EN PRODUCCIÓN.
+        // En una aplicación real, esta información se manejaría en un BACKEND SEGURO con una base de datos.
+        let registeredCoordinators = JSON.parse(localStorage.getItem('coordinators')) || [];
+
+        function saveCoordinators() {
+            localStorage.setItem('coordinators', JSON.stringify(registeredCoordinators));
+        }
+
+        // Función para renderizar la lista de coordinadores en el DOM
+        function renderCoordinators() {
+            coordinatorsList.innerHTML = ''; // Limpiar la lista actual
+            registeredCoordinators.forEach(coordinator => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <span>ID: ${coordinator.id} - Nombre: ${coordinator.name}</span>
+                    <button data-id="${coordinator.id}">Eliminar</button>
+                `;
+                coordinatorsList.appendChild(listItem);
+            });
+            attachDeleteListeners(); // Volver a adjuntar listeners después de renderizar
+        }
+
+        // Función para adjuntar listeners de clic a los botones de "Eliminar"
+        function attachDeleteListeners() {
+            document.querySelectorAll('#coordinators-list button').forEach(button => {
+                button.onclick = (e) => {
+                    const idToDelete = e.target.dataset.id;
+                    deleteCoordinator(idToDelete);
+                };
+            });
+        }
+
+        // --- LÓGICA DE AUTENTICACIÓN DEL ADMINISTRADOR PRINCIPAL (SIMULADA) ---
+        async function authenticateAdmin(user, password) {
+            // **IMPORTANTE: En un entorno de producción, aquí harías una llamada a tu backend**
+            // para validar las credenciales de super administrador contra una base de datos segura.
+            // Ejemplo de cómo sería la llamada al backend:
+            /*
+            try {
+                const response = await fetch('/api/admin_login', { // Ruta a tu API de login de admin
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user, password })
+                });
+                const data = await response.json(); // Espera la respuesta JSON del servidor
+                if (response.ok && data.success) {
+                    // Si el login es exitoso, podrías guardar un token de sesión aquí:
+                    localStorage.setItem('adminAuthToken', data.token); 
+                    return true;
+                } else {
+                    return false; // Autenticación fallida
+                }
+            } catch (error) {
+                console.error('Error en la autenticación del administrador:', error);
+                return false; // Fallo por error de red o servidor
+            }
+            */
+
+            // SIMULACIÓN ACTUAL (Elimina esto cuando tengas un backend real)
+            return user === 'jhon' && password === '3138094678'; // Tus credenciales de administrador
+        }
+
+        // Manejador del envío del formulario de login del administrador
+        adminLoginForm.addEventListener('submit', async function(event) {
+            event.preventDefault(); // Previene la recarga de la página por defecto
+
+            const adminUser = document.getElementById('admin-user').value;
+            const adminPassword = document.getElementById('admin-password').value;
+
+            const isAuthenticated = await authenticateAdmin(adminUser, adminPassword);
+
+            if (isAuthenticated) {
+                alert('¡Inicio de sesión de Administrador exitoso!');
+                adminLoginContainer.style.display = 'none'; // Oculta el formulario de login
+                adminMainContent.classList.add('visible'); // Muestra el contenido principal del admin
+                renderCoordinators(); // Carga y muestra los coordinadores al iniciar sesión
+            } else {
+                alert('Credenciales de Administrador incorrectas. Por favor, inténtalo de nuevo.');
+                adminLoginForm.reset(); // Limpia los campos del formulario
+            }
+        });
+
+        // --- LÓGICA DE REGISTRO DE COORDINADORES (SIMULADA EN EL FRONTEND) ---
+        registerCoordinatorForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('new-coordinator-id').value;
+            const name = document.getElementById('new-coordinator-name').value;
+            const password = document.getElementById('new-coordinator-password').value;
+
+            // **IMPORTANTE: En un entorno de producción, aquí harías una llamada a tu backend**
+            // para registrar el coordinador. El backend se encargaría de hashear la contraseña
+            // y guardarla en la base de datos de forma segura.
+            /*
+            try {
+                const response = await fetch('/api/register_coordinator', { // Ruta a tu API para registrar coordinador
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, name, password })
+                });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    alert('Coordinador registrado exitosamente en el backend!');
+                    // Solo si el backend confirma el éxito, añade a la simulación del frontend
+                    registeredCoordinators.push({ id, name, password }); 
+                    saveCoordinators();
+                    renderCoordinators();
+                    registerCoordinatorForm.reset();
+                } else {
+                    alert('Error al registrar coordinador: ' + (data.message || 'Error desconocido'));
+                }
+            } catch (error) {
+                console.error('Error al registrar coordinador:', error);
+                alert('Error de conexión al registrar coordinador.');
+            }
+            */
+
+            // SIMULACIÓN ACTUAL (Elimina esto cuando tengas un backend real)
+            if (registeredCoordinators.find(c => c.id === id)) {
+                alert('Ya existe un coordinador con ese ID. Por favor, usa uno diferente.');
+                return;
+            }
+            registeredCoordinators.push({ id, name, password }); // ¡ADVERTENCIA: Contraseña en texto plano! Solo para simulación.
+            saveCoordinators();
+            renderCoordinators();
+            registerCoordinatorForm.reset();
+            alert('Coordinador registrado exitosamente (simulado en el navegador).');
+        });
+
+        // --- LÓGICA PARA ELIMINAR COORDINADORES (SIMULADA EN EL FRONTEND) ---
+        function deleteCoordinator(id) {
+            // **IMPORTANTE: En un entorno de producción, aquí harías una llamada a tu backend**
+            // para eliminar el coordinador de la base de datos.
+            /*
+            if (confirm(`¿Estás seguro de eliminar al coordinador con ID ${id}?`)) {
+                try {
+                    const response = await fetch(`/api/delete_coordinator/${id}`, { // Ruta a tu API para eliminar coordinador
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        alert('Coordinador eliminado exitosamente del backend!');
+                        // Solo si el backend confirma el éxito, elimina de la simulación del frontend
+                        registeredCoordinators = registeredCoordinators.filter(c => c.id !== id);
+                        saveCoordinators();
+                        renderCoordinators();
+                    } else {
+                        alert('Error al eliminar coordinador: ' + (data.message || 'Error desconocido'));
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar coordinador:', error);
+                    alert('Error de conexión al eliminar coordinador.');
+                }
+            }
+            */
+
+            // SIMULACIÓN ACTUAL (Elimina esto cuando tengas un backend real)
+            if (confirm(`¿Estás seguro de eliminar al coordinador con ID ${id}?`)) {
+                registeredCoordinators = registeredCoordinators.filter(coordinator => coordinator.id !== id);
+                saveCoordinators();
+                renderCoordinators();
+                alert(`Coordinador ${id} eliminado (simulado en el navegador).`);
+            }
+        }
+
+        // Inicialización: Lógica que se ejecuta al cargar la página
+        window.addEventListener('load', () => {
+            // Confiamos en el CSS para la visibilidad inicial (login visible, contenido principal oculto).
+            // Si tuvieras un sistema de sesión real, aquí es donde comprobarías
+            // si el administrador ya está logueado (ej. mirando un token en localStorage).
+            // Si estuviera logueado, harías que el 'adminMainContent' sea visible.
+            
+            renderCoordinators(); // Esto carga la lista de coordinadores desde localStorage si existen.
+                                  // La interfaz estará lista para mostrar los coordinadores una vez el admin acceda.
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repartidor - DOMIFACIL24/7</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <img src="imagen/domif.png" alt="Logo de DOMIFACIL24/7" class="logo">
+        <h1>Panel del Repartidor - DOMIFACIL24/7</h1>
+    </header>
+
+    <main>
+        <section id="login-repartidor">
+            <h2><i class="fas fa-sign-in-alt"></i> Iniciar Sesión como Repartidor</h2>
+            <form id="form-login-repartidor">
+                <label for="login-numero-movil">Número de Móvil:</label>
+                <input type="text" id="login-numero-movil" required>
+
+                <label for="login-password">Contraseña:</label>
+                <input type="password" id="login-password" required> <button type="submit">Entrar</button>
+            </form>
+            <p class="error-message" id="login-error-message" style="color: red; display: none;"></p>
+        </section>
+
+        <div id="panel-repartidor-main" class="hidden">
+            <section id="repartidor-info">
+                <h2><i class="fas fa-user-circle"></i> Mi Perfil</h2>
+                <p><strong>Móvil:</strong> <span id="display-numero-movil">N/A</span></p>
+                <p><strong>Nombre:</strong> <span id="display-nombre-repartidor">N/A</span></p>
+                <button id="toggle-rastreo"><i class="fas fa-play"></i> Iniciar Rastreo</button>
+            </section>
+
+            <section id="pedidos-disponibles">
+                <h2><i class="fas fa-clipboard-list"></i> Pedidos Disponibles</h2>
+                <ul id="lista-pedidos-disponibles">
+                    <li>No hay pedidos disponibles en este momento.</li>
+                </ul>
+            </section>
+
+            <section id="pedidos-asignados">
+                <h2><i class="fas fa-truck"></i> Mis Pedidos Asignados</h2>
+                <ul id="lista-mis-pedidos">
+                    <li>No tienes pedidos asignados.</li>
+                </ul>
+            </section>
+
+            <section id="mapa-rastreo">
+                <h2><i class="fas fa-map-marker-alt"></i> Mi Ubicación</h2>
+                <p>Tu ubicación se está enviando al administrador...</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 DOMIFACIL24/7 Domicilios</p>
+    </footer>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="repartidor.js"></script>
+</body>
+</html>

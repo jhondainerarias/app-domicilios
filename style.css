@@ -1,0 +1,460 @@
+/* Variables CSS para fácil personalización */
+:root {
+    --primary-color: #0890fffb; /* Azul vibrante, tu "verde vibrante" es más azul */
+    --secondary-color: #090a00; /* Azul profundo */
+    --accent-color: #FFC107; /* Amarillo para acentos */
+    --text-color: #0c0000;
+    --light-text-color: #f8f8f8;
+    --background-light: #f4f7f6;
+    --background-dark: #2c3e50;
+    --border-color: #ddd;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --border-radius: 8px;
+    --font-family: 'Roboto', sans-serif;
+}
+
+/* Estilos para los iconos dentro de los títulos */
+.icon {
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+/* Base y tipografía */
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #a8c7e0da;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* Encabezados */
+/* Se corrigió la repetición de h1 y se unificaron los estilos para los encabezados */
+h1, h2, h3, h4 {
+    color: var(--text-color); /* Usamos --text-color para h2, h3, h4 y evitamos la repetición del color */
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 1.8em; /* Tamaño base para h1 en móviles */
+    color: var(--light-text-color); /* El color del h1 en el header es blanco/claro */
+}
+
+h2 {
+    font-size: 1.5em;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.2em;
+    color: var(--primary-color); /* Se mantiene el color primario para h3 */
+    margin-top: 30px;
+}
+
+/* --- Estilos del Logo y Header --- */
+/* Se unificaron los estilos del header para evitar repeticiones */
+header {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 15px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column; /* Por defecto vertical en móviles */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.logo {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    /* Se corrigió el margin: 10 auto 900px auto; a un valor más lógico para el logo */
+    margin: 10px auto; /* Centra horizontalmente y le da un pequeño margen superior/inferior */
+    /* border-style: #6d0370 50%; <-- Esto es una propiedad CSS inválida para border-style */
+    /* Si quieres un borde, usa: border: 2px solid #6d0370; */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover {
+    transform: scale(1.05); /* Ligeramente más grande al pasar el ratón, el 2.05 era excesivo */
+}
+
+/* Contenedor principal */
+main {
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+/* Secciones generales */
+section {
+    background-color: #d7f7ca; /* Puedes considerar usar una variable CSS aquí también */
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Formularios */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--secondary-color);
+}
+
+/* Se unificaron los estilos para inputs, textareas y selects */
+input[type="text"],
+input[type="tel"],
+input[type="password"], /* Añadido para el formulario de login */
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="password"]:focus, /* Añadido para el formulario de login */
+textarea:focus,
+select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.3); /* Este rgba es un verde específico, podrías usar var(--primary-color) aquí también */
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Botones */
+/* Se unificaron los estilos para todos los botones de tipo submit */
+button[type="submit"],
+.login-options button { /* Incluimos los botones de las opciones de login aquí */
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px; /* Se aplica a todos por defecto */
+}
+
+button[type="submit"]:hover,
+.login-options button:hover {
+    background-color: #43A047; /* Un verde un poco más oscuro (considera añadirlo como variable) */
+    transform: translateY(-2px);
+}
+
+button[type="submit"]:active,
+.login-options button:active {
+    transform: translateY(0);
+}
+
+/* Estilos específicos para los botones de opción de login que sobrescriben los generales */
+.login-options button {
+    background-color: var(--secondary-color); /* Color de fondo específico */
+    padding: 15px 30px; /* Padding específico */
+    font-size: 1.2em; /* Tamaño de fuente específico */
+    box-shadow: var(--shadow); /* Sombra específica */
+    margin-top: 0; /* No queremos margen superior en estos botones */
+}
+
+.login-options button:hover {
+    background-color: #34495e; /* Tono más oscuro del secundario */
+}
+
+.login-options button.active {
+    background-color: var(--primary-color);
+    transform: translateY(-3px); /* Efecto activo */
+}
+
+
+/* Listas */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    background-color: var(--background-light);
+    border: 1px solid var(--border-color);
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95em;
+}
+
+ul li:last-child {
+    margin-bottom: 0;
+}
+
+/* Mapa */
+#mapid {
+    height: 300px;
+    width: 100%;
+    border-radius: var(--border-radius);
+    margin-top: 15px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Notas */
+.nota {
+    font-size: 0.9em;
+    color: #666; /* Considerar usar una variable para este color gris */
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #f0f0f0; /* Considerar usar una variable aquí */
+    border-left: 4px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    background-color: #1573ffa4; /* Considerar añadir este color a las variables */
+    color: var(--light-text-color);
+    font-size: 0.9em;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Estilos específicos de la página de inicio de sesión --- */
+#login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 180px); /* Ajusta para que ocupe casi toda la altura de la ventana */
+    text-align: center;
+}
+
+#login-section h2 {
+    margin-bottom: 30px;
+    font-size: 2em;
+    border-bottom: none; /* Quitamos el borde inferior que h2 tiene por defecto */
+    padding-bottom: 0; /* Quitamos el padding inferior */
+}
+
+.login-options {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+#login-form {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--background-light);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.5s ease-out;
+    display: none; /* Oculto por defecto, se mostrará con JS */
+    flex-direction: column; /* Aseguramos que los elementos del formulario estén en columna */
+}
+
+#login-form.active {
+    display: flex; /* Mostrar cuando está activo */
+}
+
+#login-form input[type="text"],
+#login-form input[type="password"] {
+    margin-bottom: 20px;
+}
+
+#login-form button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    align-self: center; /* Centrar el botón */
+    margin-top: 20px; /* Espacio extra para el botón de login */
+}
+
+
+/* --- Media Queries --- */
+
+@media (min-width: 768px) {
+    header {
+        flex-direction: row; /* Coloca el logo y el título en la misma fila */
+        gap: 25px;
+    }
+
+    .logo {
+        max-width: 150px;
+        margin-bottom: 0;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    h2 {
+        font-size: 1.8em;
+    }
+
+    main {
+        padding: 30px;
+    }
+
+    section {
+        padding: 30px;
+        margin-bottom: 30px;
+    }
+
+    /* Ajustes para formularios en pantallas más grandes */
+    form:not(#login-form) { /* Aplicar a todos los formularios excepto al de login */
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 15px;
+    }
+
+    form:not(#login-form) label,
+    form:not(#login-form) input,
+    form:not(#login-form) select,
+    form:not(#login-form) textarea {
+        grid-column: span 1;
+    }
+
+    form:not(#login-form) textarea {
+        grid-column: 1 / -1; /* Ocupa todo el ancho si hay varias columnas */
+    }
+
+    form:not(#login-form) button[type="submit"] {
+        grid-column: span 1;
+        justify-self: start;
+    }
+
+    ul li {
+        padding: 15px 20px;
+        font-size: 1em;
+    }
+
+    #mapid {
+        height: 400px;
+    }
+
+    /* Responsive adjustments for login form */
+    @media (max-width: 767px) { /* Este media query estaba anidado incorrectamente */
+        .login-options {
+            flex-direction: column;
+            width: 80%;
+        }
+        .login-options button {
+            width: 100%;
+        }
+        #login-form {
+            padding: 20px;
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        align-items: start;
+    }
+
+    #registro-repartidor {
+        grid-column: 1 / 2;
+    }
+
+    #lista-repartidores {
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+    }
+
+    #asignacion-pedidos {
+        grid-column: 1 / 2;
+    }
+
+    #mapa-ubicacion {
+        grid-column: 2 / 3;
+        grid-row: 2 / 4;
+    }
+}
+    <style>
+        /* Estilos específicos para la página de bienvenida con opciones */
+        #welcome-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 180px); /* Ajusta para que ocupe casi toda la altura de la ventana */
+            text-align: center;
+        }
+
+        #welcome-section h2 {
+            margin-bottom: 30px;
+            font-size: 2em;
+            border-bottom: none; /* Quitamos el borde inferior que h2 tiene por defecto */
+            padding-bottom: 0; /* Quitamos el padding inferior */
+        }
+
+        .role-options {
+            display: flex;
+            flex-direction: column; /* Apilamos los botones verticalmente en móviles */
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .role-options .role-button {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            padding: 15px 30px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: var(--shadow);
+            text-decoration: none; /* Quitar subrayado del enlace */
+            display: inline-block; /* Permitir padding y margin */
+            width: 250px; /* Ancho fijo para los botones */
+            text-align: center; /* Centrar texto */
+        }
+
+        .role-options .role-button:hover {
+            background-color: #34495e; /* Un tono más oscuro del secundario */
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments for role options */
+        @media (min-width: 768px) {
+            .role-options {
+                flex-direction: row; /* En fila para pantallas más grandes */
+            }
+        }
